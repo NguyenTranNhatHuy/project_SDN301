@@ -1,0 +1,20 @@
+.password-input {
+    display: flex;
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+}
+
+.password-input input {
+    flex: 1;
+    /* Mở rộng input để lấp đầy toàn bộ không gian còn lại */
+    margin-right: 5px;
+    /* Khoảng cách giữa input và nút "show password" */
+}
+
+.password-input button {
+    cursor: pointer;
+}
+
+.toggle-password-btn {
+    /* padding: 0; */
+}
