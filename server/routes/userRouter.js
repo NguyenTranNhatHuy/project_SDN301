@@ -47,7 +47,7 @@ userRouter.post('/login', (req, res, next) => {
         return next(err);
       }
       var token = authenticate.getToken({ _id: user._id });
-      res.status(200).json({ success: true, token: token, status: 'You are successfully logged in!' });
+      res.status(200).json({ success: true, token: token, status: 'You are successfully logged in!', accountid: user._id, admin: user.admin });
     });
   })(req, res, next);
 });
