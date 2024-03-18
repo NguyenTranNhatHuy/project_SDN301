@@ -231,7 +231,7 @@ export default function Admin() {
                             </a>
                         </li>
                         {isAdmin && (
-                            <a className="nav-link" href="/admin">
+                            <a className="nav-link" href="">
                                 Manage <span className="sr-only"></span>
                             </a>
                         )}
@@ -264,38 +264,81 @@ export default function Admin() {
                             <ul className="nav nav-tabs">
                                 <li className="nav-item"><a className="nav-link active" href="#">Cakes List</a></li>
                             </ul>
-
+                            {isAdmin && (
+                                <button className="btn btn-success btn-block mt-5" type="button" data-toggle="modal" data-target="#user-form-modal">New Cake</button>
+                            )}
 
                         </div>
-                        <div className="row">
-                            {cakeList.map((cake, index) => (
 
-                                <div className="card m-5" style={{ width: "18rem" }}>
-                                    <img src={`/assets/img/${cake.urlImage}`} style={{ height: '200px' }} className="card-img-top" alt="..." />
+                        <div className="row flex-lg-nowrap">
+                            <div className="col mb-3">
+                                <div className="e-panel card">
                                     <div className="card-body">
-                                        <h5 className="card-title">{cake.name}</h5>
-                                        <p className="card-text">
-                                            Type: {cake.type}
-                                        </p>
-                                        <p className="card-text">
-                                            {cake.price} VND
-                                        </p>
-                                        <a data-toggle="modal" data-target="#cake-update-form-modal" onClick={() => handleEdit(cake._id)} className="btn btn-primary">
-                                            Detail
-                                        </a>
+                                        <div className="e-table">
+                                            <div className="table-responsive table-lg mt-3">
+                                                <table className="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th className="max-width">Image</th>
+                                                            <th className="max-width">Name</th>
+                                                            <th className="sortable">Type</th>
+                                                            <th className="sortable">Price</th>
+                                                            {isAdmin && (
+                                                                <th className="sortable">User Posted</th>
+                                                            )}
+                                                            {isAdmin && (
+                                                                <th>Actions</th>
+                                                            )}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {cakeList.length === 0 ? (
+                                                            <tr>
+                                                                <td colSpan="6" className="text-center">No cakes found.</td>
+                                                            </tr>
+                                                        ) : (
+                                                            cakeList.map((cake, index) => (
+                                                                <tr key={index}>
+                                                                    <td className="align-middle text-center">
+                                                                        <img src={`/assets/img/${cake.urlImage}`} style={{ width: '35px', height: '35px', borderRadius: '3px' }} alt="Cake" />
+                                                                    </td>
+                                                                    <td className="text-nowrap align-middle">{cake.name}</td>
+                                                                    <td className="text-nowrap align-middle">{cake.type}</td>
+                                                                    <td className="text-nowrap align-middle">{cake.price}</td>
+                                                                    {isAdmin && (
+                                                                        <td className="text-nowrap align-middle">{cake.user.username}</td>
+                                                                    )}
+                                                                    {isAdmin && (
+                                                                        <td className="text-center align-middle">
+                                                                            <div className="btn-group align-top">
+                                                                                <button className="btn btn-sm btn-outline-secondary" type="button" data-toggle="modal" data-target="#cake-update-form-modal">
+                                                                                    <FontAwesomeIcon onClick={() => handleEdit(cake._id)} icon={faPenToSquare} />
+                                                                                </button>
+                                                                                <button className="btn btn-sm btn-outline-secondary" type="button">
+                                                                                    <FontAwesomeIcon onClick={(event) => handleDelete(event, cake._id)} style={{ color: 'red' }} icon={faTrash} />
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    )}
+                                                                </tr>
+                                                            ))
+                                                        )}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-                            ))}
-
+                            </div>
                         </div>
-
-
-                        {/* model update cake */}
-                        <div className="modal fade" role="dialog" tabIndex={-1} id="cake-update-form-modal">
+                        {/* model create cake */}
+                        <div className="modal fade" role="dialog" tabIndex={-1} id="user-form-modal">
                             <div className="modal-dialog modal-lg" role="document">
                                 <div className="modal-content">
                                     <div className="modal-header">
-                                        <h5 className="modal-title">Detail Cake</h5>
+                                        <h5 className="modal-title">Create Cake</h5>
                                         <button type="button" className="close btn btn-secondary" data-dismiss="modal">
                                             <span aria-hidden="true">×</span>
                                         </button>
@@ -308,9 +351,108 @@ export default function Admin() {
                                                         <div className="row">
                                                             <div className="col">
                                                                 <div className="form-group">
+                                                                    <label>Image:</label>
+                                                                    <input
+                                                                        className="form-control"
+                                                                        type="file"
+                                                                        name="image"
+                                                                        placeholder=""
+                                                                        defaultValue=""
+                                                                        onChange={handleImageChange}
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div className="row mt-3">
+                                                            <div className="col">
+                                                                <div className="form-group">
+                                                                    <label>Name:</label>
+                                                                    <input
+                                                                        className="form-control"
+                                                                        type="text"
+                                                                        name="name"
+                                                                        placeholder=""
+                                                                        defaultValue=""
+                                                                        onChange={handleNameChange}
+
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row mt-3">
+                                                            <div className="col">
+                                                                <div className="form-group">
+                                                                    <label>Type:</label>
+                                                                    <input
+                                                                        className="form-control"
+                                                                        type="text"
+                                                                        placeholder=""
+                                                                        onChange={handleTypeChange}
+
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row mt-3">
+                                                            <div className="col">
+                                                                <div className="form-group">
+                                                                    <label>Price:</label>
+                                                                    <input
+                                                                        className="form-control"
+                                                                        type="text"
+                                                                        placeholder=""
+                                                                        onChange={handlePriceChange}
+
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <button onClick={handleSubmit} style={{ float: 'right' }} className="btn btn-success mt-3" type="submit">
+                                                    Save Changes
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* model update cake */}
+                        <div className="modal fade" role="dialog" tabIndex={-1} id="cake-update-form-modal">
+                            <div className="modal-dialog modal-lg" role="document">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Update Cake</h5>
+                                        <button type="button" className="close btn btn-secondary" data-dismiss="modal">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="py-1">
+                                            <form className="form" noValidate="">
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <div className="row">
+                                                            <div className="col">
+                                                                <div className="form-group">
+                                                                    <label>Current Image:</label>
                                                                     <img src={`../assets/img/${cake.urlImage}`} style={{ width: '100px', height: '100px', borderRadius: '3px', marginLeft: '60px' }} />
                                                                 </div>
-
+                                                                <div className="form-group">
+                                                                    <label>Image:</label>
+                                                                    <input
+                                                                        className="form-control"
+                                                                        type="file"
+                                                                        name="image"
+                                                                        placeholder=""
+                                                                        defaultValue={cake.urlImage}
+                                                                        onChange={handleImageChange}
+                                                                    />
+                                                                </div>
                                                             </div>
 
 
@@ -326,7 +468,7 @@ export default function Admin() {
                                                                         placeholder=""
                                                                         defaultValue={cake.name}
                                                                         onChange={handleNameChange}
-                                                                        readOnly
+
                                                                     />
                                                                 </div>
                                                             </div>
@@ -341,7 +483,6 @@ export default function Admin() {
                                                                         placeholder=""
                                                                         onChange={handleTypeChange}
                                                                         defaultValue={cake.type}
-                                                                        readOnly
                                                                     />
                                                                 </div>
                                                             </div>
@@ -356,7 +497,6 @@ export default function Admin() {
                                                                         placeholder=""
                                                                         onChange={handlePriceChange}
                                                                         defaultValue={cake.price}
-                                                                        readOnly
 
                                                                     />
                                                                 </div>
@@ -365,7 +505,9 @@ export default function Admin() {
 
                                                     </div>
                                                 </div>
-
+                                                <button onClick={(event) => handleEditSubmit(event, cake._id)} style={{ float: 'right' }} className="btn btn-success mt-3" type="submit">
+                                                    Update
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
