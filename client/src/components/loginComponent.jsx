@@ -28,7 +28,11 @@ export default function LoginComponent() {
             });
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
-                history.push('/success');
+                localStorage.setItem('accountid', response.data.accountid);
+                localStorage.setItem('admin', response.data.admin);
+
+
+                history.push('/home');
                 toast.success('Login successfully');
 
             } else {

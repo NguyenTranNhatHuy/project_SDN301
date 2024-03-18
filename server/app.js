@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cakeRouter = require('./routes/cakeRouter');
-const toppingRouter = require('./routes/toppingRouter');
 const userRouter = require('./routes/userRouter');
 
 const session = require('express-session');
@@ -50,7 +49,6 @@ function auth(req, res, next) {
 
 //Routes
 app.use('/cakes', cakeRouter);
-app.use('/toppings', toppingRouter);
 
 app.listen(port, () => {
   console.log(`Server is running with port ${port}`);

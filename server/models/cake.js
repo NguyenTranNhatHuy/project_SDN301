@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Topping = require('./topping')
 require("mongoose-currency").loadType(mongoose);
 const Currency = mongoose.Types.Currency;
 
-const quizSchema = new Schema({
+const cakeSchema = new Schema({
     type: {
+        type: String,
+        required: true
+    },
+    urlImage: {
         type: String,
         required: true
     },
@@ -14,16 +17,21 @@ const quizSchema = new Schema({
         type: String,
         required: true
     },
-    price: { type: Currency, required: true, min: 0 },
-    topping: [{
+    price: { type: String, required: true },
+    user: {
         type: Schema.Types.ObjectId,
-        ref: 'Topping',
+        ref: 'User',
         required: true
-    }]
+    },
+    // topping: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Topping',
+    //     required: true
+    // }]
 }, {
     timestamps: true
 })
 
-const Cake = mongoose.model('Cake', quizSchema)
+const Cake = mongoose.model('Cake', cakeSchema)
 
 module.exports = Cake;

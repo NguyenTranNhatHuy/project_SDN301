@@ -9,7 +9,7 @@ cakeRouter.use(bodyParser.json());
 cakeRouter.route('/')
     .get((req, res, next) => {
         Cake.find()
-            .populate('topping')
+            .populate('user')
             .then((cake) => {
                 res.setHeader("Content-Type", "application/json");
                 res.status(200).json(cake);
@@ -20,7 +20,7 @@ cakeRouter.route('/')
     .post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         Cake.create(req.body)
             .then((cake) => {
-                return Cake.findById(cake._id).populate('topping').exec();
+                return Cake.findById(cake._id).populate('user').exec();
             })
             .then((cake) => {
                 res.setHeader("Content-Type", "application/json");

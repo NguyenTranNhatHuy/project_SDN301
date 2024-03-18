@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import signupComponent from './components/signupComponent';
-import success from './components/success';
+import Home from './components/home';
 
 function App() {
   return (
@@ -17,17 +17,8 @@ function App() {
           <Switch>
             <Route path="/login" exact component={loginComponent} />
             <Route path="/signup" exact component={signupComponent} />
-            <Route path="/success" exact component={success} />
+            <Route path="/home" exact component={Home} />
 
-            {/* <Route path="/home" component={HomePage} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/test" component={StarRating} />
-
-            <Route
-              path="/detail-game/:gameId"
-              component={DetailProductComponent}
-            /> */}
           </Switch>
         </Router>
       </AuthProvider>
